@@ -73,4 +73,14 @@ module OpenMarket
       end
     end
   end
+
+  class SendSmsResponse < Response
+    attr_reader :ticket_id
+    def initialize(http_response)
+      super
+      if ticket = xml.elements["ticket"]
+        @ticket_id = ticket.attributes["id"]
+      end
+    end
+  end
 end
