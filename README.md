@@ -1,13 +1,13 @@
 # OpenMarket
 
-TODO: Write a gem description
+We use HTTParty to send SMS messages using the OpenMarket API.  See USAGE below for details.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'open_market'
+gem 'openmarket'
 ```
 
 And then execute:
@@ -16,7 +16,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install open_market
+    $ gem install openmarket
 
 ## Usage
 
@@ -24,7 +24,7 @@ TODO: Write usage instructions here
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/open_market/fork )
+1. Fork it ( https://github.com/betesh/open_market/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
