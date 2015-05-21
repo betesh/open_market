@@ -83,4 +83,15 @@ module OpenMarket
       end
     end
   end
+
+  class StatusResponse < Response
+    attr_reader :status_code, :status_description
+    def initialize(http_response)
+      super
+      if status = xml.elements["status"]
+        @status_code = status.attributes["code"].to_i
+        @status_description = status.attributes["description"]
+      end
+    end
+  end
 end

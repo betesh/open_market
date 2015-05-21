@@ -147,4 +147,35 @@ describe OpenMarket::Api do
       end
     end
   end
+
+  describe "#status" do
+    let(:sms) { subject.send_sms(phone, "Test of OpenMarket API") }
+    let(:ticket_id) { sms.ticket_id }
+
+    def get_status
+      subject.status(ticket_id)
+    end
+
+    it "should look up the status of a ticket" do
+      status = get_status
+      expect(status.code).to eq(0)
+      expect(status.description).to eq("No Error")
+      expect(status.status_code).to eq(3)
+      expect(status.status_description).to eq("Message buffered with carrier and waiting for delivery response.")
+      print "Waiting for the message to be delivered..."
+      i = 0
+      SmsValidation.configuration.logger = nil
+      begin
+        sleep 1
+        print "."
+        status = get_status
+        break if 4 == status.status_code
+        i += 1
+      end while i < 5
+      expect(status.code).to eq(0)
+      expect(status.description).to eq("No Error")
+      expect(status.status_code).to eq(4)
+      expect(status.status_description).to eq("Message successfully delivered.")
+    end
+  end
 end

@@ -37,6 +37,12 @@ module OpenMarket
       end)
     end
 
+    def status(ticket_id)
+      StatusResponse.new(post(:query) do |b|
+        b.ticket(id: ticket_id)
+      end)
+    end
+
     private
     def configuration
       @configuration ||= Module.nesting.last.configuration
