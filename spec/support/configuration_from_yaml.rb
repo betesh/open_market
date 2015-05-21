@@ -1,6 +1,7 @@
 require "yaml"
 require "logger"
 require "rspec/core/shared_context"
+require "sms_validation"
 
 module ConfigurationFromYaml
   extend RSpec::Core::SharedContext
@@ -13,6 +14,9 @@ module ConfigurationFromYaml
   let(:skip_open_market_configuration) { false }
 
   before(:each) do
+    SmsValidation.configure do |config|
+      config.logger = ::Logger.new(STDOUT)
+    end
     OpenMarket.configure do |config|
       config.id, config.password, config.short_code, config.program_id = id, password, short_code, program_id
     end unless skip_open_market_configuration
@@ -20,6 +24,7 @@ module ConfigurationFromYaml
 
   after(:each) do
     OpenMarket.instance_variable_set("@configuration", nil)
+    SmsValidation.instance_variable_set("@configuration", nil)
   end
 end
 
