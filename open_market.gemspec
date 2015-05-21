@@ -23,4 +23,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec", "~> 3"
 
   spec.add_dependency "sms_validation", "~> 0.0.2"
+  spec.add_dependency "httparty"
+  spec.add_dependency "builder"
 end

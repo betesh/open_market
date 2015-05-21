@@ -1,4 +1,4 @@
-require "open_market/version"
+require "open_market/api"
 
 module OpenMarket
 end
