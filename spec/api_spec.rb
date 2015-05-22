@@ -30,7 +30,7 @@ describe OpenMarket::Api do
       expect(result.ticket_id).not_to be_nil
     end
 
-    it "looks up the carrier_id if it is not passed as an option" do
+    it "looks up the carrier_id if it is not passed as an option and returns it" do
       expect(OpenMarket::Api::Http).to receive(:post).and_wrap_original do |original, *args, &block|
         expect(args[0]).to eq("/wmp")
         puts args[1][:body].inspect
@@ -42,7 +42,8 @@ describe OpenMarket::Api do
         expect(args[1][:body]).to match /\A<\?xml version=\"1.0\" encoding=\"UTF-8\"\?><request version=\"3.0\" protocol=\"wmp\" type=\"submit\"><user agent=\"openmarket_rubygem\/SMS\/0\.0\.1\"\/><account id=\"#{id}\" password=\"#{password}\"\/><option charge_type=\"0\" program_id=\"#{program_id}\" mlc=\"0\"\/><source ton=\"3\" address=\"#{short_code}\"\/><destination ton=\"1\" address=\"1#{phone}\" carrier=\"#{carrier_id}\"\/><message text=\"Test of OpenMarket API\"\/><\/request>\z/
         original.call(*args, &block)
       end
-      subject.send_sms(phone, "Test of OpenMarket API")
+      result = subject.send_sms(phone, "Test of OpenMarket API")
+      expect(result.carrier_id).to eq(carrier_id)
     end
 
     describe "message_length_control" do

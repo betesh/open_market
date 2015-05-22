@@ -28,13 +28,14 @@ module OpenMarket
       unrecognized_keys = options.keys - ALLOWED_OPTIONS
       raise InvalidOptions, "#{unrecognized_keys.join(", ")} #{1 == unrecognized_keys.size ? "is not a" : "are not"} valid option#{:s if unrecognized_keys.size > 1}" unless unrecognized_keys.empty?
       request_options = options.select{ |k,v| k.to_sym == :ticket_id_for_retry }
+      carrier_id = options[:carrier_id] || carrier_lookup(phone).carrier_id
       SendSmsResponse.new(post(:submit, request_options) do |b|
         b.delivery(receipt_requested: true, url: options[:dr_url]) if options[:dr_url]
         b.option((options[:note] ? { note: options[:note] } : {}).merge(charge_type: 0, program_id: configuration.program_id, mlc: message_length_control))
         b.source(ton: 3, address: options[:short_code] || configuration.short_code)
-        b.destination(ton: 1, address: phone, carrier: options[:carrier_id] || carrier_lookup(phone).carrier_id)
+        b.destination(ton: 1, address: phone, carrier: carrier_id)
         b.message((options[:minutes_to_retry] ? { validity_period: (options[:minutes_to_retry].to_f * 60).round } : {}).merge(text: message))
-      end)
+      end, carrier_id)
     end
 
     def status(ticket_id)

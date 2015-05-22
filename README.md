@@ -78,6 +78,9 @@ puts result.description # should be 'Message received.'
 # Save the ticket ID for later.  We'll use this to query the status of the ticket.
 ticket_id = result.ticket_id
 
+# Save the carrier ID for later.  We'll use this next time we send an SMS to this number.
+carrier_id = result.carrier_id
+
 # There are some options you can pass along as well:
 result = OpenMarket::API.send_sms(
   phone,
@@ -87,7 +90,7 @@ result = OpenMarket::API.send_sms(
   dr_url: "http://www.example.com/drs",
 
   # It is highly recommended to pass a carrier_id.  If you don't, the openmarket gem will make an extra API call to look up the carrier before sending the message.
-  carrier_id: 788,
+  carrier_id: carrier_id, # Remember the carrier ID we saved from the previous SMS?
 
   # If you don't want to the short_code you configured above, provide another short_code to send to:
   short_code: 33333,
