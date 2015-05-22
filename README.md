@@ -29,7 +29,7 @@ OpenMarket.configure do |config|
   config.id = "000-000-000-00000"
   config.password = "Re@llyL0ngR&om$tr1ng"
   config.program_id = "ABC"
-  config.short_code = 99999
+  config.short_code = 99999 # You can override this on an individual message if necessary
 end
 ```
 
@@ -88,6 +88,9 @@ result = OpenMarket::API.send_sms(
 
   # It is highly recommended to pass a carrier_id.  If you don't, the openmarket gem will make an extra API call to look up the carrier before sending the message.
   carrier_id: 788,
+
+  # If you don't want to the short_code you configured above, provide another short_code to send to:
+  short_code: 33333,
 
   # By default, OpenMarket re-attempts delivery for 3 days.  To make OpenMarket give up and report it as a failure sooner, pass a number of minutes you would like to retry for:
   minutes_to_retry: 120, # 2 hours

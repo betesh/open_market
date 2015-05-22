@@ -93,7 +93,7 @@ describe OpenMarket::Api do
       end
 
       it "automatically converts String keys to Symbol" do
-        expect{subject.send_sms(phone, "Test of OpenMarket API", "carrier_id" => carrier_id, "ticket_id_for_retry" => "ABC", "dr_url" => dr_url, "note" => "ABCDEFFF", "minutes_to_retry" => 10)}.not_to raise_error
+        expect{subject.send_sms(phone, "Test of OpenMarket API", "carrier_id" => carrier_id, "ticket_id_for_retry" => "ABC", "dr_url" => dr_url, "note" => "ABCDEFFF", "minutes_to_retry" => 10, "short_code" => 99998)}.not_to raise_error
       end
     end
 
@@ -169,6 +169,18 @@ describe OpenMarket::Api do
               end
             end
           end
+        end
+      end
+
+      describe "short_code" do
+        let(:short_code) { 66666 }
+        it "should be in the XML" do
+          expect(OpenMarket::Api::Http).to receive(:post).and_wrap_original do |original, *args, &block|
+            expect(args[0]).to eq("/wmp")
+            expect(args[1][:body]).to match /\A<\?xml version=\"1.0\" encoding=\"UTF-8\"\?><request version=\"3.0\" protocol=\"wmp\" type=\"submit\"><user agent=\"openmarket_rubygem\/SMS\/0\.0\.1\"\/><account id=\"#{id}\" password=\"#{password}\"\/><option charge_type=\"0\" program_id=\"#{program_id}\" mlc=\"0\"\/><source ton=\"3\" address=\"#{short_code}\"\/><destination ton=\"1\" address=\"1#{phone}\" carrier=\"#{carrier_id}\"\/><message text=\"Test of OpenMarket API\"\/><\/request>\z/
+            original.call(*args, &block)
+          end
+          subject.send_sms(phone, "Test of OpenMarket API", carrier_id: carrier_id, short_code: short_code)
         end
       end
     end
