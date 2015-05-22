@@ -13,7 +13,7 @@ module OpenMarket
       base_uri "https://smsc.openmarket.com"
     end
 
-    ALLOWED_OPTIONS = [:dr_url, :ticket_id_for_retry, :carrier_id, :note]
+    ALLOWED_OPTIONS = [:dr_url, :ticket_id_for_retry, :carrier_id, :note, :minutes_to_retry]
     class InvalidOptions < ::StandardError; end
 
     def carrier_lookup(phone)
@@ -33,7 +33,7 @@ module OpenMarket
         b.option((options[:note] ? { note: options[:note] } : {}).merge(charge_type: 0, program_id: configuration.program_id, mlc: message_length_control))
         b.source(ton: 3, address: configuration.short_code)
         b.destination(ton: 1, address: phone, carrier: options[:carrier_id] || carrier_lookup(phone).carrier_id)
-        b.message(text: message)
+        b.message((options[:minutes_to_retry] ? { validity_period: (options[:minutes_to_retry].to_f * 60).round } : {}).merge(text: message))
       end)
     end
 
