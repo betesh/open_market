@@ -2,7 +2,8 @@ require "rexml/document"
 
 module OpenMarket
   class MO
-    attr_reader :account_id, :carrier_id, :data, :data_coding, :destination_address, :destination_ton, :source_address, :source_ton, :ticket_id, :udhi
+    ATTRIBUTES = [:account_id, :carrier_id, :data, :data_coding, :destination_address, :destination_ton, :source_address, :source_ton, :ticket_id, :udhi]
+    attr_reader *ATTRIBUTES
     def initialize(data)
       (class << self; self; end).class_eval do
         # Defining a member variable for xml would pollute #inspect
@@ -32,6 +33,10 @@ module OpenMarket
         @udhi = message.attributes["udhi"] == true
         @data = message.attributes["data"]
       end
+    end
+
+    def ==(rhs)
+      rhs.is_a?(self.class) && ATTRIBUTES.all? { |a| send(a) == rhs.send(a) }
     end
   end
 end
