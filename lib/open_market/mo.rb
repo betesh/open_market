@@ -18,13 +18,13 @@ module OpenMarket
         @account_id = account.attributes["id"]
       end
       if source = xml.elements["source"]
-        @carrier_id = source.elements["carrier"]
-        @source_ton = source.elements["ton"]
-        @source_address = source.elements["address"]
+        @source_address = source.attributes["address"]
+        @carrier_id = source.attributes["carrier"]
+        @source_ton = source.attributes["ton"]
       end
       if destination = xml.elements["destination"]
-        @destination_ton = destination.elements["ton"]
-        @destination_address = destination.elements["address"]
+        @destination_address = destination.attributes["address"]
+        @destination_ton = destination.attributes["ton"]
       end
       if option = xml.elements["option"]
         @data_coding = option.attributes["datacoding"]
