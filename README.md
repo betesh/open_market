@@ -20,7 +20,7 @@ Or install it yourself as:
 
 ## Usage
 
-### Configuratiion
+### Configuration
 
 The openmarket gem requires you to provide an id, password, program_id and short_code.  Configure them before attempting any API calls.
 
