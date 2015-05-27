@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = OpenMarket::VERSION
   spec.authors       = ["Isaac Betesh"]
   spec.email         = ["iybetesh@gmail.com"]
-  spec.summary       = "Send SMS messages using the OpenMarket API"
-  spec.description   = `cat README.md`
+  spec.summary       = `cat README.md`
+  spec.description   = "Send SMS messages using the OpenMarket API"
   spec.homepage      = "https://github.com/betesh/open_market"
   spec.license       = "MIT"
 
