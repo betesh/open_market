@@ -102,7 +102,6 @@ result = OpenMarket::API.send_sms(
 
   ticket_id_for_retry: ticket_id # If this is a re-try of a failed ticket.
 )
-
 ```
 #### status
 
@@ -117,7 +116,34 @@ puts result.description # should be 'No Error'
 # Check the result of the SMS message
 puts result.status_code
 puts result.status_description
+```
 
+### Processing MO's
+
+```ruby
+require  'openmarket/mo'
+# In a Rails controller or Sinatra app environment, params will be defined
+mo = OpenMarket::MO.new(params['xml'])
+puts mo.inspect
+# Do something with the MO...
+
+# Just send a HTTP 200
+render nothing: true # Rails
+return [200] # Sinatra
+```
+
+### Processing DR's
+
+```ruby
+require  'openmarket/dr'
+# In a Rails controller or Sinatra app environment, params will be defined
+dr = OpenMarket::DR.new(params['xml'])
+puts dr.inspect
+# Do something with the DR...
+
+# Just send a HTTP 200
+render nothing: true # Rails
+return [200] # Sinatra
 ```
 
 ## Contributing
