@@ -31,7 +31,7 @@ module OpenMarket
       end
       if message = xml.elements["message"]
         @udhi = message.attributes["udhi"] == true
-        @data = message.attributes["data"]
+        @data = [message.attributes["data"]].pack("H*")
       end
     end
 
