@@ -18,7 +18,7 @@ module OpenMarket
       @code = response.attributes["code"].to_i
       message = xml.elements["message"]
       @segment_number = message.attributes["segmentNumber"]
-      @timestamp = DateTime.strptime(message.attributes["deliveryDate"] + "+0000", '%FT%T.%LZ%z').utc
+      @timestamp = DateTime.strptime(message.attributes["deliveryDate"] + "+0000", '%FT%T.%LZ%z').utc if message.attributes["deliveryDate"]
       state = message.elements["state"]
       @state_id = state.attributes["id"].to_i
       @state_description = state.attributes["description"]
