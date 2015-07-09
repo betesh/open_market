@@ -34,12 +34,12 @@ describe OpenMarket::Api do
       expect(OpenMarket::Api::Http).to receive(:post).and_wrap_original do |original, *args, &block|
         expect(args[0]).to eq("/wmp")
         puts args[1][:body].inspect
-        expect(args[1][:body]).to match /\A<\?xml version=\"1.0\" encoding=\"UTF-8\"\?><request version=\"3.0\" protocol=\"wmp\" type=\"preview\"><user agent=\"openmarket_rubygem\/SMS\/0\.0\.1\"\/><account id=\"#{id}\" password=\"#{password}\"\/><destination ton=\"1\" address=\"1#{phone}\"\/><\/request>\z/
+        expect(args[1][:body]).to match /\A<\?xml version=\"1.0\" encoding=\"UTF-8\"\?><request version=\"3.0\" protocol=\"wmp\" type=\"preview\"><user agent=\"openmarket_rubygem\/SMS\/0\.0\.6\"\/><account id=\"#{id}\" password=\"#{password}\"\/><destination ton=\"1\" address=\"1#{phone}\"\/><\/request>\z/
         original.call(*args, &block)
       end
       expect(OpenMarket::Api::Http).to receive(:post).and_wrap_original do |original, *args, &block|
         expect(args[0]).to eq("/wmp")
-        expect(args[1][:body]).to match /\A<\?xml version=\"1.0\" encoding=\"UTF-8\"\?><request version=\"3.0\" protocol=\"wmp\" type=\"submit\"><user agent=\"openmarket_rubygem\/SMS\/0\.0\.1\"\/><account id=\"#{id}\" password=\"#{password}\"\/><option charge_type=\"0\" program_id=\"#{program_id}\" mlc=\"0\"\/><source ton=\"3\" address=\"#{short_code}\"\/><destination ton=\"1\" address=\"1#{phone}\" carrier=\"#{carrier_id}\"\/><message text=\"Test of OpenMarket API\"\/><\/request>\z/
+        expect(args[1][:body]).to match /\A<\?xml version=\"1.0\" encoding=\"UTF-8\"\?><request version=\"3.0\" protocol=\"wmp\" type=\"submit\"><user agent=\"openmarket_rubygem\/SMS\/0\.0\.6\"\/><account id=\"#{id}\" password=\"#{password}\"\/><option charge_type=\"0\" program_id=\"#{program_id}\" mlc=\"0\"\/><source ton=\"3\" address=\"#{short_code}\"\/><destination ton=\"1\" address=\"1#{phone}\" carrier=\"#{carrier_id}\"\/><message text=\"Test of OpenMarket API\"\/><\/request>\z/
         original.call(*args, &block)
       end
       result = subject.send_sms(phone, "Test of OpenMarket API")
@@ -52,7 +52,7 @@ describe OpenMarket::Api do
           SmsValidation.configuration.on_message_too_long = :truncate
           expect(OpenMarket::Api::Http).to receive(:post).and_wrap_original do |original, *args, &block|
             expect(args[0]).to eq("/wmp")
-            expect(args[1][:body]).to match /\A<\?xml version=\"1.0\" encoding=\"UTF-8\"\?><request version=\"3.0\" protocol=\"wmp\" type=\"submit\"><user agent=\"openmarket_rubygem\/SMS\/0\.0\.1\"\/><account id=\"#{id}\" password=\"#{password}\"\/><option charge_type=\"0\" program_id=\"#{program_id}\" mlc=\"1\"\/><source ton=\"3\" address=\"#{short_code}\"\/><destination ton=\"1\" address=\"1#{phone}\" carrier=\"#{carrier_id}\"\/><message text=\"Test of OpenMarket API\"\/><\/request>\z/
+            expect(args[1][:body]).to match /\A<\?xml version=\"1.0\" encoding=\"UTF-8\"\?><request version=\"3.0\" protocol=\"wmp\" type=\"submit\"><user agent=\"openmarket_rubygem\/SMS\/0\.0\.6\"\/><account id=\"#{id}\" password=\"#{password}\"\/><option charge_type=\"0\" program_id=\"#{program_id}\" mlc=\"1\"\/><source ton=\"3\" address=\"#{short_code}\"\/><destination ton=\"1\" address=\"1#{phone}\" carrier=\"#{carrier_id}\"\/><message text=\"Test of OpenMarket API\"\/><\/request>\z/
             original.call(*args, &block)
           end
           subject.send_sms(phone, "Test of OpenMarket API", carrier_id: carrier_id)
@@ -64,7 +64,7 @@ describe OpenMarket::Api do
           SmsValidation.configuration.on_message_too_long = :split
           expect(OpenMarket::Api::Http).to receive(:post).and_wrap_original do |original, *args, &block|
             expect(args[0]).to eq("/wmp")
-            expect(args[1][:body]).to match /\A<\?xml version=\"1.0\" encoding=\"UTF-8\"\?><request version=\"3.0\" protocol=\"wmp\" type=\"submit\"><user agent=\"openmarket_rubygem\/SMS\/0\.0\.1\"\/><account id=\"#{id}\" password=\"#{password}\"\/><option charge_type=\"0\" program_id=\"#{program_id}\" mlc=\"2\"\/><source ton=\"3\" address=\"#{short_code}\"\/><destination ton=\"1\" address=\"1#{phone}\" carrier=\"#{carrier_id}\"\/><message text=\"Test of OpenMarket API\"\/><\/request>\z/
+            expect(args[1][:body]).to match /\A<\?xml version=\"1.0\" encoding=\"UTF-8\"\?><request version=\"3.0\" protocol=\"wmp\" type=\"submit\"><user agent=\"openmarket_rubygem\/SMS\/0\.0\.6\"\/><account id=\"#{id}\" password=\"#{password}\"\/><option charge_type=\"0\" program_id=\"#{program_id}\" mlc=\"2\"\/><source ton=\"3\" address=\"#{short_code}\"\/><destination ton=\"1\" address=\"1#{phone}\" carrier=\"#{carrier_id}\"\/><message text=\"Test of OpenMarket API\"\/><\/request>\z/
             original.call(*args, &block)
           end
           subject.send_sms(phone, "Test of OpenMarket API", carrier_id: carrier_id)
@@ -76,7 +76,7 @@ describe OpenMarket::Api do
           SmsValidation.configuration.on_message_too_long = :raise_error
           expect(OpenMarket::Api::Http).to receive(:post).and_wrap_original do |original, *args, &block|
             expect(args[0]).to eq("/wmp")
-            expect(args[1][:body]).to match /\A<\?xml version=\"1.0\" encoding=\"UTF-8\"\?><request version=\"3.0\" protocol=\"wmp\" type=\"submit\"><user agent=\"openmarket_rubygem\/SMS\/0\.0\.1\"\/><account id=\"#{id}\" password=\"#{password}\"\/><option charge_type=\"0\" program_id=\"#{program_id}\" mlc=\"0\"\/><source ton=\"3\" address=\"#{short_code}\"\/><destination ton=\"1\" address=\"1#{phone}\" carrier=\"#{carrier_id}\"\/><message text=\"Test of OpenMarket API\"\/><\/request>\z/
+            expect(args[1][:body]).to match /\A<\?xml version=\"1.0\" encoding=\"UTF-8\"\?><request version=\"3.0\" protocol=\"wmp\" type=\"submit\"><user agent=\"openmarket_rubygem\/SMS\/0\.0\.6\"\/><account id=\"#{id}\" password=\"#{password}\"\/><option charge_type=\"0\" program_id=\"#{program_id}\" mlc=\"0\"\/><source ton=\"3\" address=\"#{short_code}\"\/><destination ton=\"1\" address=\"1#{phone}\" carrier=\"#{carrier_id}\"\/><message text=\"Test of OpenMarket API\"\/><\/request>\z/
             original.call(*args, &block)
           end
           subject.send_sms(phone, "Test of OpenMarket API", carrier_id: carrier_id)
@@ -104,7 +104,7 @@ describe OpenMarket::Api do
         it "should be in the XML" do
           expect(OpenMarket::Api::Http).to receive(:post).and_wrap_original do |original, *args, &block|
             expect(args[0]).to eq("/wmp")
-            expect(args[1][:body]).to match /\A<\?xml version=\"1.0\" encoding=\"UTF-8\"\?><request version=\"3.0\" protocol=\"wmp\" type=\"submit\"><user agent=\"openmarket_rubygem\/SMS\/0\.0\.1\"\/><account id=\"#{id}\" password=\"#{password}\"\/><option charge_type=\"0\" program_id=\"#{program_id}\" mlc=\"0\"\/><source ton=\"3\" address=\"#{short_code}\"\/><destination ton=\"1\" address=\"1#{phone}\" carrier=\"#{carrier_id}\"\/><message text=\"Test of OpenMarket API\"\/><\/request>\z/
+            expect(args[1][:body]).to match /\A<\?xml version=\"1.0\" encoding=\"UTF-8\"\?><request version=\"3.0\" protocol=\"wmp\" type=\"submit\"><user agent=\"openmarket_rubygem\/SMS\/0\.0\.6\"\/><account id=\"#{id}\" password=\"#{password}\"\/><option charge_type=\"0\" program_id=\"#{program_id}\" mlc=\"0\"\/><source ton=\"3\" address=\"#{short_code}\"\/><destination ton=\"1\" address=\"1#{phone}\" carrier=\"#{carrier_id}\"\/><message text=\"Test of OpenMarket API\"\/><\/request>\z/
             original.call(*args, &block)
           end
           subject.send_sms(phone, "Test of OpenMarket API", carrier_id: carrier_id)
@@ -116,7 +116,7 @@ describe OpenMarket::Api do
         it "should be in the XML" do
           expect(OpenMarket::Api::Http).to receive(:post).and_wrap_original do |original, *args, &block|
             expect(args[0]).to eq("/wmp")
-            expect(args[1][:body]).to match /\A<\?xml version=\"1.0\" encoding=\"UTF-8\"\?><request version=\"3.0\" protocol=\"wmp\" type=\"submit\"><user agent=\"openmarket_rubygem\/SMS\/0\.0\.1\"\/><account id=\"#{id}\" password=\"#{password}\"\/><option note=\"#{note}\" charge_type=\"0\" program_id=\"#{program_id}\" mlc=\"0\"\/><source ton=\"3\" address=\"#{short_code}\"\/><destination ton=\"1\" address=\"1#{phone}\" carrier=\"#{carrier_id}\"\/><message text=\"Test of OpenMarket API\"\/><\/request>\z/
+            expect(args[1][:body]).to match /\A<\?xml version=\"1.0\" encoding=\"UTF-8\"\?><request version=\"3.0\" protocol=\"wmp\" type=\"submit\"><user agent=\"openmarket_rubygem\/SMS\/0\.0\.6\"\/><account id=\"#{id}\" password=\"#{password}\"\/><option note=\"#{note}\" charge_type=\"0\" program_id=\"#{program_id}\" mlc=\"0\"\/><source ton=\"3\" address=\"#{short_code}\"\/><destination ton=\"1\" address=\"1#{phone}\" carrier=\"#{carrier_id}\"\/><message text=\"Test of OpenMarket API\"\/><\/request>\z/
             original.call(*args, &block)
           end
           subject.send_sms(phone, "Test of OpenMarket API", carrier_id: carrier_id, note: note)
@@ -128,7 +128,7 @@ describe OpenMarket::Api do
         it "should be in the XML" do
           expect(OpenMarket::Api::Http).to receive(:post).and_wrap_original do |original, *args, &block|
             expect(args[0]).to eq("/wmp")
-            expect(args[1][:body]).to match /\A<\?xml version=\"1.0\" encoding=\"UTF-8\"\?><request ticket_id_for_retry=\"#{ticket_id_for_retry}\" version=\"3.0\" protocol=\"wmp\" type=\"submit\"><user agent=\"openmarket_rubygem\/SMS\/0\.0\.1\"\/><account id=\"#{id}\" password=\"#{password}\"\/><option charge_type=\"0\" program_id=\"#{program_id}\" mlc=\"0\"\/><source ton=\"3\" address=\"#{short_code}\"\/><destination ton=\"1\" address=\"1#{phone}\" carrier=\"#{carrier_id}\"\/><message text=\"Test of OpenMarket API\"\/><\/request>\z/
+            expect(args[1][:body]).to match /\A<\?xml version=\"1.0\" encoding=\"UTF-8\"\?><request ticket_id_for_retry=\"#{ticket_id_for_retry}\" version=\"3.0\" protocol=\"wmp\" type=\"submit\"><user agent=\"openmarket_rubygem\/SMS\/0\.0\.6\"\/><account id=\"#{id}\" password=\"#{password}\"\/><option charge_type=\"0\" program_id=\"#{program_id}\" mlc=\"0\"\/><source ton=\"3\" address=\"#{short_code}\"\/><destination ton=\"1\" address=\"1#{phone}\" carrier=\"#{carrier_id}\"\/><message text=\"Test of OpenMarket API\"\/><\/request>\z/
             original.call(*args, &block)
           end
           subject.send_sms(phone, "Test of OpenMarket API", carrier_id: carrier_id, ticket_id_for_retry: ticket_id_for_retry)
@@ -140,7 +140,7 @@ describe OpenMarket::Api do
         it "should be in the XML" do
           expect(OpenMarket::Api::Http).to receive(:post).and_wrap_original do |original, *args, &block|
             expect(args[0]).to eq("/wmp")
-            expect(args[1][:body]).to match /\A<\?xml version=\"1.0\" encoding=\"UTF-8\"\?><request version=\"3.0\" protocol=\"wmp\" type=\"submit\"><user agent=\"openmarket_rubygem\/SMS\/0\.0\.1\"\/><account id=\"#{id}\" password=\"#{password}\"\/><delivery receipt_requested=\"true\" url=\"#{dr_url}\"\/><option charge_type=\"0\" program_id=\"#{program_id}\" mlc=\"0\"\/><source ton=\"3\" address=\"#{short_code}\"\/><destination ton=\"1\" address=\"1#{phone}\" carrier=\"#{carrier_id}\"\/><message text=\"Test of OpenMarket API\"\/><\/request>\z/
+            expect(args[1][:body]).to match /\A<\?xml version=\"1.0\" encoding=\"UTF-8\"\?><request version=\"3.0\" protocol=\"wmp\" type=\"submit\"><user agent=\"openmarket_rubygem\/SMS\/0\.0\.6\"\/><account id=\"#{id}\" password=\"#{password}\"\/><delivery receipt_requested=\"true\" url=\"#{dr_url}\"\/><option charge_type=\"0\" program_id=\"#{program_id}\" mlc=\"0\"\/><source ton=\"3\" address=\"#{short_code}\"\/><destination ton=\"1\" address=\"1#{phone}\" carrier=\"#{carrier_id}\"\/><message text=\"Test of OpenMarket API\"\/><\/request>\z/
             original.call(*args, &block)
           end
           subject.send_sms(phone, "Test of OpenMarket API", dr_url: dr_url, carrier_id: carrier_id)
@@ -151,7 +151,7 @@ describe OpenMarket::Api do
         it "should be in the XML" do
           expect(OpenMarket::Api::Http).to receive(:post).and_wrap_original do |original, *args, &block|
             expect(args[0]).to eq("/wmp")
-            expect(args[1][:body]).to match /\A<\?xml version=\"1.0\" encoding=\"UTF-8\"\?><request version=\"3.0\" protocol=\"wmp\" type=\"submit\"><user agent=\"openmarket_rubygem\/SMS\/0\.0\.1\"\/><account id=\"#{id}\" password=\"#{password}\"\/><delivery receipt_requested=\"true\" url=\"#{dr_url}\"\/><option charge_type=\"0\" program_id=\"#{program_id}\" mlc=\"0\"\/><source ton=\"3\" address=\"#{short_code}\"\/><destination ton=\"1\" address=\"1#{phone}\" carrier=\"#{carrier_id}\"\/><message validity_period=\"1080\" text=\"Test of OpenMarket API\"\/><\/request>\z/
+            expect(args[1][:body]).to match /\A<\?xml version=\"1.0\" encoding=\"UTF-8\"\?><request version=\"3.0\" protocol=\"wmp\" type=\"submit\"><user agent=\"openmarket_rubygem\/SMS\/0\.0\.6\"\/><account id=\"#{id}\" password=\"#{password}\"\/><delivery receipt_requested=\"true\" url=\"#{dr_url}\"\/><option charge_type=\"0\" program_id=\"#{program_id}\" mlc=\"0\"\/><source ton=\"3\" address=\"#{short_code}\"\/><destination ton=\"1\" address=\"1#{phone}\" carrier=\"#{carrier_id}\"\/><message validity_period=\"1080\" text=\"Test of OpenMarket API\"\/><\/request>\z/
             original.call(*args, &block)
           end
           subject.send_sms(phone, "Test of OpenMarket API", dr_url: dr_url, carrier_id: carrier_id, minutes_to_retry: 18)
@@ -163,7 +163,7 @@ describe OpenMarket::Api do
               it "should be in the XML" do
                 expect(OpenMarket::Api::Http).to receive(:post).and_wrap_original do |original, *args, &block|
                   expect(args[0]).to eq("/wmp")
-                  expect(args[1][:body]).to match /\A<\?xml version=\"1.0\" encoding=\"UTF-8\"\?><request version=\"3.0\" protocol=\"wmp\" type=\"submit\"><user agent=\"openmarket_rubygem\/SMS\/0\.0\.1\"\/><account id=\"#{id}\" password=\"#{password}\"\/><delivery receipt_requested=\"true\" url=\"#{dr_url}\"\/><option charge_type=\"0\" program_id=\"#{program_id}\" mlc=\"0\"\/><source ton=\"3\" address=\"#{short_code}\"\/><destination ton=\"1\" address=\"1#{phone}\" carrier=\"#{carrier_id}\"\/><message validity_period=\"3\" text=\"Test of OpenMarket API\"\/><\/request>\z/
+                  expect(args[1][:body]).to match /\A<\?xml version=\"1.0\" encoding=\"UTF-8\"\?><request version=\"3.0\" protocol=\"wmp\" type=\"submit\"><user agent=\"openmarket_rubygem\/SMS\/0\.0\.6\"\/><account id=\"#{id}\" password=\"#{password}\"\/><delivery receipt_requested=\"true\" url=\"#{dr_url}\"\/><option charge_type=\"0\" program_id=\"#{program_id}\" mlc=\"0\"\/><source ton=\"3\" address=\"#{short_code}\"\/><destination ton=\"1\" address=\"1#{phone}\" carrier=\"#{carrier_id}\"\/><message validity_period=\"3\" text=\"Test of OpenMarket API\"\/><\/request>\z/
                   original.call(*args, &block)
                 end
                 subject.send_sms(phone, "Test of OpenMarket API", dr_url: dr_url, carrier_id: carrier_id, minutes_to_retry: 1.0/divisor )
@@ -178,7 +178,7 @@ describe OpenMarket::Api do
         it "should be in the XML" do
           expect(OpenMarket::Api::Http).to receive(:post).and_wrap_original do |original, *args, &block|
             expect(args[0]).to eq("/wmp")
-            expect(args[1][:body]).to match /\A<\?xml version=\"1.0\" encoding=\"UTF-8\"\?><request version=\"3.0\" protocol=\"wmp\" type=\"submit\"><user agent=\"openmarket_rubygem\/SMS\/0\.0\.1\"\/><account id=\"#{id}\" password=\"#{password}\"\/><option charge_type=\"0\" program_id=\"#{program_id}\" mlc=\"0\"\/><source ton=\"3\" address=\"#{short_code}\"\/><destination ton=\"1\" address=\"1#{phone}\" carrier=\"#{carrier_id}\"\/><message text=\"Test of OpenMarket API\"\/><\/request>\z/
+            expect(args[1][:body]).to match /\A<\?xml version=\"1.0\" encoding=\"UTF-8\"\?><request version=\"3.0\" protocol=\"wmp\" type=\"submit\"><user agent=\"openmarket_rubygem\/SMS\/0\.0\.6\"\/><account id=\"#{id}\" password=\"#{password}\"\/><option charge_type=\"0\" program_id=\"#{program_id}\" mlc=\"0\"\/><source ton=\"3\" address=\"#{short_code}\"\/><destination ton=\"1\" address=\"1#{phone}\" carrier=\"#{carrier_id}\"\/><message text=\"Test of OpenMarket API\"\/><\/request>\z/
             original.call(*args, &block)
           end
           subject.send_sms(phone, "Test of OpenMarket API", carrier_id: carrier_id, short_code: short_code)
@@ -210,7 +210,7 @@ describe OpenMarket::Api do
         status = get_status
         break if 4 == status.status_code
         i += 1
-      end while i < 5
+      end while i < 10
       expect(status.code).to eq(0)
       expect(status.description).to eq("No Error")
       expect(status.status_code).to eq(4)
